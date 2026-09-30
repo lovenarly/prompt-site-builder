@@ -10,33 +10,63 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as RestaurantIdRouteImport } from './routes/restaurant.$id'
+import { Route as VoteIndexRouteImport } from './routes/vote.index'
+import { Route as VoteSessionIdRouteImport } from './routes/vote.$sessionId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RestaurantIdRoute = RestaurantIdRouteImport.update({
+  id: '/restaurant/$id',
+  path: '/restaurant/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VoteIndexRoute = VoteIndexRouteImport.update({
+  id: '/vote/',
+  path: '/vote/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VoteSessionIdRoute = VoteSessionIdRouteImport.update({
+  id: '/vote/$sessionId',
+  path: '/vote/$sessionId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/restaurant/$id': typeof RestaurantIdRoute
+  '/vote/$sessionId': typeof VoteSessionIdRoute
+  '/vote/': typeof VoteIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/restaurant/$id': typeof RestaurantIdRoute
+  '/vote/$sessionId': typeof VoteSessionIdRoute
+  '/vote': typeof VoteIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/restaurant/$id': typeof RestaurantIdRoute
+  '/vote/$sessionId': typeof VoteSessionIdRoute
+  '/vote/': typeof VoteIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/restaurant/$id' | '/vote/$sessionId' | '/vote/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/restaurant/$id' | '/vote/$sessionId' | '/vote'
+  id: '__root__' | '/' | '/restaurant/$id' | '/vote/$sessionId' | '/vote/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  RestaurantIdRoute: typeof RestaurantIdRoute
+  VoteSessionIdRoute: typeof VoteSessionIdRoute
+  VoteIndexRoute: typeof VoteIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +78,35 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/restaurant/$id': {
+      id: '/restaurant/$id'
+      path: '/restaurant/$id'
+      fullPath: '/restaurant/$id'
+      preLoaderRoute: typeof RestaurantIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/vote/': {
+      id: '/vote/'
+      path: '/vote'
+      fullPath: '/vote/'
+      preLoaderRoute: typeof VoteIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/vote/$sessionId': {
+      id: '/vote/$sessionId'
+      path: '/vote/$sessionId'
+      fullPath: '/vote/$sessionId'
+      preLoaderRoute: typeof VoteSessionIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  RestaurantIdRoute: RestaurantIdRoute,
+  VoteSessionIdRoute: VoteSessionIdRoute,
+  VoteIndexRoute: VoteIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
