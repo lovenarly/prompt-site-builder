@@ -10,6 +10,9 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as MesRestaurantsRouteImport } from './routes/mes-restaurants'
+import { Route as ProfilRouteImport } from './routes/profil'
+import { Route as AvisIdRouteImport } from './routes/avis.$id'
 import { Route as RestaurantIdRouteImport } from './routes/restaurant.$id'
 import { Route as VoteIndexRouteImport } from './routes/vote.index'
 import { Route as VoteSessionIdRouteImport } from './routes/vote.$sessionId'
@@ -17,6 +20,21 @@ import { Route as VoteSessionIdRouteImport } from './routes/vote.$sessionId'
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MesRestaurantsRoute = MesRestaurantsRouteImport.update({
+  id: '/mes-restaurants',
+  path: '/mes-restaurants',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProfilRoute = ProfilRouteImport.update({
+  id: '/profil',
+  path: '/profil',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AvisIdRoute = AvisIdRouteImport.update({
+  id: '/avis/$id',
+  path: '/avis/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RestaurantIdRoute = RestaurantIdRouteImport.update({
@@ -37,12 +55,18 @@ const VoteSessionIdRoute = VoteSessionIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/mes-restaurants': typeof MesRestaurantsRoute
+  '/profil': typeof ProfilRoute
+  '/avis/$id': typeof AvisIdRoute
   '/restaurant/$id': typeof RestaurantIdRoute
   '/vote/$sessionId': typeof VoteSessionIdRoute
   '/vote/': typeof VoteIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/mes-restaurants': typeof MesRestaurantsRoute
+  '/profil': typeof ProfilRoute
+  '/avis/$id': typeof AvisIdRoute
   '/restaurant/$id': typeof RestaurantIdRoute
   '/vote/$sessionId': typeof VoteSessionIdRoute
   '/vote': typeof VoteIndexRoute
@@ -50,20 +74,48 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/mes-restaurants': typeof MesRestaurantsRoute
+  '/profil': typeof ProfilRoute
+  '/avis/$id': typeof AvisIdRoute
   '/restaurant/$id': typeof RestaurantIdRoute
   '/vote/$sessionId': typeof VoteSessionIdRoute
   '/vote/': typeof VoteIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/restaurant/$id' | '/vote/$sessionId' | '/vote/'
+  fullPaths:
+    | '/'
+    | '/mes-restaurants'
+    | '/profil'
+    | '/avis/$id'
+    | '/restaurant/$id'
+    | '/vote/$sessionId'
+    | '/vote/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/restaurant/$id' | '/vote/$sessionId' | '/vote'
-  id: '__root__' | '/' | '/restaurant/$id' | '/vote/$sessionId' | '/vote/'
+  to:
+    | '/'
+    | '/mes-restaurants'
+    | '/profil'
+    | '/avis/$id'
+    | '/restaurant/$id'
+    | '/vote/$sessionId'
+    | '/vote'
+  id:
+    | '__root__'
+    | '/'
+    | '/mes-restaurants'
+    | '/profil'
+    | '/avis/$id'
+    | '/restaurant/$id'
+    | '/vote/$sessionId'
+    | '/vote/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  MesRestaurantsRoute: typeof MesRestaurantsRoute
+  ProfilRoute: typeof ProfilRoute
+  AvisIdRoute: typeof AvisIdRoute
   RestaurantIdRoute: typeof RestaurantIdRoute
   VoteSessionIdRoute: typeof VoteSessionIdRoute
   VoteIndexRoute: typeof VoteIndexRoute
@@ -76,6 +128,27 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mes-restaurants': {
+      id: '/mes-restaurants'
+      path: '/mes-restaurants'
+      fullPath: '/mes-restaurants'
+      preLoaderRoute: typeof MesRestaurantsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/profil': {
+      id: '/profil'
+      path: '/profil'
+      fullPath: '/profil'
+      preLoaderRoute: typeof ProfilRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/avis/$id': {
+      id: '/avis/$id'
+      path: '/avis/$id'
+      fullPath: '/avis/$id'
+      preLoaderRoute: typeof AvisIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/restaurant/$id': {
@@ -104,6 +177,9 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  MesRestaurantsRoute: MesRestaurantsRoute,
+  ProfilRoute: ProfilRoute,
+  AvisIdRoute: AvisIdRoute,
   RestaurantIdRoute: RestaurantIdRoute,
   VoteSessionIdRoute: VoteSessionIdRoute,
   VoteIndexRoute: VoteIndexRoute,
