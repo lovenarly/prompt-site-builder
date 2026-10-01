@@ -5,6 +5,10 @@ export type Restaurant = {
   district: string;
   address: string;
   price: 1 | 2 | 3 | 4;
+  /** Prix moyen par personne (plat + boisson + service), en euros */
+  budget: number;
+  /** Temps moyen pour être servi, en minutes */
+  minutes: number;
   rating: number;
   reviewCount: number;
   lat: number;
@@ -31,63 +35,33 @@ export type Review = {
 };
 
 export const CUISINES = [
+  "Asiatique",
+  "Pizzeria",
+  "Burger",
+  "Kebab",
   "Française",
-  "Japonaise",
-  "Italienne",
-  "Gastronomique",
   "Libanaise",
-  "Végétale",
-  "Fruits de mer",
-  "Bistronomie",
   "Indienne",
-  "Coréenne",
+  "Mexicaine",
+  "Sandwich",
+  "Végé",
 ];
 
-export const DIETS = ["Végétarien", "Végan", "Halal", "Sans alcool"];
+export const DIETS = ["Végan", "Végétarien", "Halal"];
 export const ALLERGENS = ["Gluten", "Arachides", "Lactose", "Fruits de mer", "Œufs", "Soja"];
 
-const NAMES_A = [
-  "Le Cèdre",
-  "Maison Aurore",
-  "L'Atelier",
-  "Chez Solange",
-  "Le Comptoir",
-  "Auberge",
-  "Table",
-  "Le Grand",
-  "Villa",
-  "Le Jardin",
-  "Sésame",
-  "L'Orangerie",
-  "Le Clos",
-  "Brasserie",
-  "Le Sel",
-  "Ombre",
-  "Le Baron",
-  "Kaiseki",
-  "Le Marbre",
-  "Perle",
-  "Le Cellier",
-  "Mirabelle",
-  "Le Faubourg",
-  "Oryza",
-  "Le Vertige",
-];
-const NAMES_B = [
-  "Doré",
-  "Noir",
-  "d'Argent",
-  "Royal",
-  "des Lys",
-  "de Lune",
-  "d'Été",
-  "Rive Gauche",
-  "Belle Époque",
-  "du Marais",
-  "Impérial",
-  "Céleste",
-  "Secret",
-];
+const NAMES_BY_CUISINE: Record<string, string[]> = {
+  Asiatique: ["Pho Saigon", "Bao Bar", "Ramen Ya", "Wok Express", "Sushi Shop Canal", "Thaï Basil"],
+  Pizzeria: ["Pizza Mia", "Da Luigi", "Napoli Express", "Big Mamma Slice", "Forno Rosso"],
+  Burger: ["Big Fernand", "Burger Lab", "Smash Club", "Le Bun", "PNY Express"],
+  Kebab: ["Grill Istanbul", "Kebab du Canal", "Doner Bros", "Anatolia Grill", "Le Sultan"],
+  Française: ["Le Bouillon", "Chez Gégé", "Bistrot du Coin", "Crêperie Josselin", "La Cantine"],
+  Libanaise: ["Falafel King", "Le Cèdre", "Mezzé Beyrouth", "Byblos Snack", "Zaatar"],
+  Indienne: ["Curry Palace", "Naan Stop", "Tandoori Night", "Bombay Street", "Masala Box"],
+  Mexicaine: ["El Taco Loco", "Burrito Bandito", "Chipotle Paris", "La Catrina", "Guaca Bar"],
+  Sandwich: ["Le Petit Panini", "Bagel Corner", "Banh Mi Republic", "Croq' Time", "Sub Station"],
+  Végé: ["Green Bowl", "Hank Vegan", "Sol Semilla", "Veggie Spot", "Bowl & Co"],
+};
 
 const DISTRICTS = [
   "Paris 5e",
@@ -106,21 +80,23 @@ const STREETS = [
   "rue de Rivoli",
   "rue des Martyrs",
   "quai de Valmy",
-  "rue Oberkampf",
-  "avenue Montaigne",
+  "rue du Faubourg-Saint-Denis",
+  "rue Cler",
   "rue Mouffetard",
 ];
 
-const SIGNATURES = [
-  "Ris de veau, sauce au vin jaune",
-  "Omakase 12 services",
-  "Turbot rôti à l'os, beurre noisette",
-  "Risotto à la truffe noire",
-  "Pigeon en croûte de sésame",
-  "Bar de ligne en croûte de sel",
-  "Tarte fine aux cèpes",
-  "Homard bleu grillé",
-];
+const SIGNATURES: Record<string, string> = {
+  Asiatique: "Pho bœuf saignant",
+  Pizzeria: "Margherita au feu de bois",
+  Burger: "Double smash cheddar",
+  Kebab: "Assiette grillade frites maison",
+  Française: "Croque-monsieur & salade",
+  Libanaise: "Assiette falafel houmous",
+  Indienne: "Butter chicken & cheese naan",
+  Mexicaine: "Burrito carnitas",
+  Sandwich: "Banh mi porc caramel",
+  Végé: "Buddha bowl tofu sésame",
+};
 
 // Deterministic pseudo-random generator (stable across server and client renders).
 function makeRng(seed: number) {
@@ -135,33 +111,38 @@ function build(): Restaurant[] {
   const rng = makeRng(20260930);
   const list: Restaurant[] = [];
   for (let i = 0; i < 54; i++) {
-    const name = `${NAMES_A[i % NAMES_A.length]} ${NAMES_B[(i * 7) % NAMES_B.length]}`;
-    const price = ((i % 4) + 1) as 1 | 2 | 3 | 4;
-    const rating = Math.round((3.6 + rng() * 1.4) * 10) / 10;
-    const diets = DIETS.filter(() => rng() > 0.62);
+    const cuisine = CUISINES[i % CUISINES.length];
+    const pool = NAMES_BY_CUISINE[cuisine];
+    const name = pool[Math.floor(i / CUISINES.length) % pool.length];
+    const budget = 8 + Math.floor(rng() * 30);
+    const price = (budget < 14 ? 1 : budget < 22 ? 2 : budget < 30 ? 3 : 4) as 1 | 2 | 3 | 4;
+    const rating = Math.round((3.4 + rng() * 1.6) * 10) / 10;
+    const diets = DIETS.filter(() => rng() > 0.6);
+    if (cuisine === "Végé" && !diets.includes("Végan")) diets.unshift("Végan");
     const allergensFree = ALLERGENS.filter(() => rng() > 0.55);
     list.push({
       id: `r${i + 1}`,
       name,
-      cuisine: CUISINES[i % CUISINES.length],
+      cuisine,
       district: DISTRICTS[i % DISTRICTS.length],
       address: `${1 + Math.floor(rng() * 90)} ${STREETS[i % STREETS.length]}`,
       price,
+      budget,
+      minutes: [10, 15, 20, 30, 45, 60][Math.floor(rng() * 6)],
       rating,
-      reviewCount: 40 + Math.floor(rng() * 460),
+      reviewCount: 20 + Math.floor(rng() * 400),
       lat: 48.8402 + rng() * 0.048,
       lng: 2.3204 + rng() * 0.062,
-      hours: rng() > 0.5 ? "12h–14h30 · 19h–22h30" : "19h–23h00",
+      hours: rng() > 0.5 ? "11h–23h" : "11h30–15h · 18h30–23h",
       tags: [
-        rng() > 0.7 ? "Étoilé" : "Carte saisonnière",
-        rng() > 0.5 ? "Terrasse" : "Salon privé",
-        rng() > 0.6 ? "Cave rare" : "Accords mets-vins",
+        rng() > 0.5 ? "À emporter" : "Sur place",
+        rng() > 0.5 ? "Terrasse" : "Livraison",
       ],
       diets,
       allergensFree,
       description:
-        "Une salle feutrée, un service à la française et une cuisine de produit signée par un chef formé dans les grandes maisons parisiennes.",
-      signature: SIGNATURES[i % SIGNATURES.length],
+        "Une adresse sans prise de tête : bonne bouffe, prix honnêtes et service rapide. Parfait pour un midi entre potes ou un dîner chill.",
+      signature: SIGNATURES[cuisine],
       bookingUrl: "https://www.thefork.fr",
     });
   }
@@ -182,12 +163,12 @@ const AUTHORS = [
 ];
 
 const COMMENTS = [
-  "Service impeccable, dressage sublime. Le sommelier a fait un accord parfait.",
-  "Très bon dans l'ensemble, un peu d'attente entre les services.",
-  "Rapport qualité-prix remarquable pour ce niveau de cuisine.",
-  "Ambiance feutrée idéale pour un dîner à deux. On reviendra.",
-  "Les allergies ont été prises en compte sans discussion, appréciable.",
-  "Belle découverte, la signature vaut à elle seule le détour.",
+  "Trop bon ! Portions généreuses, on repart calé.",
+  "Bien mais un peu d'attente le midi.",
+  "Super rapport qualité-prix, je recommande.",
+  "Ambiance cool, parfait entre potes.",
+  "Ils ont fait gaffe à mes allergies, top.",
+  "Le plat signature vaut le détour.",
 ];
 
 function buildReviews(): Review[] {
