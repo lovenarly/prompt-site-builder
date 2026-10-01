@@ -14,12 +14,12 @@ export const Route = createFileRoute("/avis/$id")({
   head: ({ loaderData }) => {
     if (!loaderData) {
       return {
-        meta: [{ title: "Avis — Fine & Fork" }, { name: "robots", content: "noindex" }],
+        meta: [{ title: "Avis — Food Finder" }, { name: "robots", content: "noindex" }],
       };
     }
     return {
       meta: [
-        { title: `Laisser un avis · ${loaderData.restaurant.name} — Fine & Fork` },
+        { title: `Laisser un avis · ${loaderData.restaurant.name} — Food Finder` },
         {
           name: "description",
           content: `Notez la qualité, la rapidité, l'ambiance et le rapport qualité-prix de ${loaderData.restaurant.name}.`,

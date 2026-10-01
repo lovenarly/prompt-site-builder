@@ -6,12 +6,12 @@ import { useFavorites, useHistory } from "@/lib/local-store";
 export const Route = createFileRoute("/mes-restaurants")({
   head: () => ({
     meta: [
-      { title: "Mes restaurants — Fine & Fork" },
+      { title: "Mes restaurants — Food Finder" },
       {
         name: "description",
         content: "Retrouvez vos favoris, votre historique de visites et vos statistiques de table.",
       },
-      { property: "og:title", content: "Mes restaurants — Fine & Fork" },
+      { property: "og:title", content: "Mes restaurants — Food Finder" },
       { property: "og:description", content: "Favoris, historique et statistiques personnelles." },
     ],
   }),
