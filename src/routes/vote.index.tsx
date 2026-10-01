@@ -26,17 +26,17 @@ export const Route = createFileRoute("/vote/")({
 function CreateVote() {
   const navigate = useNavigate();
   const [sessions, setSessions] = useLocalState<Record<string, VoteSession>>("ff:votes", {});
-  const [name, setName] = useState("Dîner d'équipe");
+  const [name, setName] = useState("Lunch d'équipe");
   const [participants, setParticipants] = useState(4);
-  const [maxPrice, setMaxPrice] = useState(3);
-  const [cuisine, setCuisine] = useState<string | null>(null);
+  const [budget, setBudget] = useState(20);
+  const [allergies, setAllergies] = useState<string[]>([]);
 
   const create = () => {
     const pool = RESTAURANTS.filter(
-      (r) => r.price <= maxPrice && (!cuisine || r.cuisine === cuisine),
+      (r) => r.budget <= budget && allergies.every((a) => r.allergensFree.includes(a)),
     ).sort((a, b) => b.rating - a.rating);
-    const candidates = (pool.length >= 4 ? pool : RESTAURANTS).slice(0, 5).map((r) => r.id);
-    const id = `s${Date.now().toString(36)}`;
+    const candidates = (pool.length >= 5 ? pool : RESTAURANTS).slice(0, 6).map((r) => r.id);
+    const id = Math.random().toString(36).slice(2, 11);
     const session: VoteSession = {
       id,
       name,
@@ -46,72 +46,54 @@ function CreateVote() {
       createdAt: new Date().toISOString(),
     };
     setSessions({ ...sessions, [id]: session });
+    void navigator.clipboard?.writeText(`${window.location.origin}/vote/${id}`).catch(() => {});
+    toast.success("Session créée — lien copié !");
     navigate({ to: "/vote/$sessionId", params: { sessionId: id } });
   };
 
   return (
     <div className="mx-auto max-w-[760px] px-5 py-14">
-      <p className="label-xs">Étape 1 · Configuration</p>
-      <h1 className="mt-2 font-display text-4xl">Créer un vote de groupe</h1>
+      <p className="label-xs">Vote de groupe</p>
+      <h1 className="mt-2 text-4xl">Créer un vote</h1>
       <p className="mt-3 text-muted-foreground">
-        Définissez les paramètres communs, partagez le lien : chacun vote 30 secondes et la table
-        avec le meilleur score l'emporte.
+        Personne n'est d'accord ? Crée une session, partage le lien sur WhatsApp, Slack ou Discord :
+        chacun vote en 30 secondes et le resto avec le plus de « oui » gagne.
       </p>
-      <div className="gold-rule my-8" />
 
-      <div className="card-luxe grid gap-6 p-6">
+      <div className="mt-8 grid gap-6 rounded-2xl border border-border bg-card p-6">
         <label className="grid gap-2">
           <span className="label-xs">Nom du groupe</span>
           <input
             value={name}
+            maxLength={60}
             onChange={(e) => setName(e.target.value)}
-            className="rounded-lg border border-border bg-background px-4 py-3 text-sm outline-none focus:border-gold"
+            className="rounded-lg border border-border bg-background px-4 py-3 text-sm outline-none focus:border-primary"
           />
         </label>
 
         <label className="grid gap-2">
           <span className="label-xs">Participants · {participants}</span>
-          <input
-            type="range"
-            min={2}
-            max={10}
-            value={participants}
-            onChange={(e) => setParticipants(Number(e.target.value))}
-            className="accent-[var(--gold)]"
-          />
+          <input type="range" min={2} max={10} value={participants} onChange={(e) => setParticipants(Number(e.target.value))} className="accent-[var(--primary)]" />
+        </label>
+
+        <label className="grid gap-2">
+          <span className="label-xs">Budget groupe · {budget}€ max / personne</span>
+          <input type="range" min={10} max={40} value={budget} onChange={(e) => setBudget(Number(e.target.value))} className="accent-[var(--primary)]" />
         </label>
 
         <div className="grid gap-2">
-          <span className="label-xs">Budget maximum</span>
-          <div className="flex gap-2">
-            {[1, 2, 3, 4].map((p) => (
-              <button
-                key={p}
-                type="button"
-                onClick={() => setMaxPrice(p)}
-                className={`rounded-full border px-4 py-2 text-sm ${
-                  maxPrice === p ? "border-gold bg-gold-soft font-medium" : "border-border"
-                }`}
-              >
-                {"€".repeat(p)}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        <div className="grid gap-2">
-          <span className="label-xs">Cuisine (optionnel)</span>
+          <span className="label-xs">Allergies communes</span>
           <div className="flex flex-wrap gap-2">
-            {CUISINES.map((c) => (
+            {ALLERGENS.map((a) => (
               <button
-                key={c}
+                key={a}
                 type="button"
-                onClick={() => setCuisine(cuisine === c ? null : c)}
+                onClick={() => setAllergies(allergies.includes(a) ? allergies.filter((x) => x !== a) : [...allergies, a])}
                 className={`rounded-full border px-3 py-1.5 text-sm ${
-                  cuisine === c ? "border-gold bg-gold-soft font-medium" : "border-border"
+                  allergies.includes(a) ? "border-success bg-success-soft font-medium text-success" : "border-border"
                 }`}
               >
-                {c}
+                Sans {a.toLowerCase()}
               </button>
             ))}
           </div>
