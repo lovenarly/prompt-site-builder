@@ -7,13 +7,13 @@ import { useLocalState, type VoteSession } from "@/lib/vote-session";
 export const Route = createFileRoute("/vote/")({
   head: () => ({
     meta: [
-      { title: "Créer un vote de groupe — Fine & Fork" },
+      { title: "Créer un vote de groupe — Food Finder" },
       {
         name: "description",
         content:
           "Créez une session de vote, partagez le lien et laissez votre groupe choisir la table en 30 secondes.",
       },
-      { property: "og:title", content: "Vote de groupe — Fine & Fork" },
+      { property: "og:title", content: "Vote de groupe — Food Finder" },
       {
         property: "og:description",
         content: "Partagez un lien, chacun vote, le meilleur restaurant gagne.",

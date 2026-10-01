@@ -6,13 +6,13 @@ import { DEFAULT_PROFILE, useLocalState, type Profile } from "@/lib/local-store"
 export const Route = createFileRoute("/profil")({
   head: () => ({
     meta: [
-      { title: "Mon profil — Fine & Fork" },
+      { title: "Mon profil — Food Finder" },
       {
         name: "description",
         content:
           "Enregistrez vos allergies, vos régimes et votre budget pour filtrer automatiquement les tables.",
       },
-      { property: "og:title", content: "Mon profil — Fine & Fork" },
+      { property: "og:title", content: "Mon profil — Food Finder" },
       { property: "og:description", content: "Allergies, régimes et budget par défaut." },
     ],
   }),

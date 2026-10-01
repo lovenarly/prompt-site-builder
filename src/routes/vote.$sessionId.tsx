@@ -8,12 +8,12 @@ import { simulatedVotes, useLocalState, type VoteSession } from "@/lib/vote-sess
 export const Route = createFileRoute("/vote/$sessionId")({
   head: () => ({
     meta: [
-      { title: "Écran de vote — Fine & Fork" },
+      { title: "Écran de vote — Food Finder" },
       {
         name: "description",
         content: "Votez pour la table du groupe : 30 secondes, un choix, un gagnant.",
       },
-      { property: "og:title", content: "Écran de vote — Fine & Fork" },
+      { property: "og:title", content: "Écran de vote — Food Finder" },
       { property: "og:description", content: "30 secondes pour choisir la table du groupe." },
     ],
   }),

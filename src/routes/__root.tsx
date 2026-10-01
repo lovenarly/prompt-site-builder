@@ -79,16 +79,16 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Fine & Fork — Trouvez l'expérience gastronomique parfaite" },
+      { title: "Food Finder — Trouve où manger sans te prendre la tête" },
       {
         name: "description",
         content:
           "Recherchez les meilleures tables de Paris selon votre budget, vos allergies et vos envies, puis décidez à plusieurs grâce au vote de groupe.",
       },
-      { property: "og:title", content: "Fine & Fork" },
+      { property: "og:title", content: "Food Finder" },
       {
         property: "og:description",
-        content: "Trouvez l'expérience gastronomique parfaite, seul ou en groupe.",
+        content: "Trouve où manger sans te prendre la tête, seul ou en groupe.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -102,7 +102,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Cormorant+Garamond:wght@500;600;700&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap",
       },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
     ],

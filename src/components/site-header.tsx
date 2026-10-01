@@ -16,7 +16,7 @@ export function SiteHeader() {
             FF
           </span>
           <span className="leading-tight">
-            <span className="block font-display text-xl font-semibold">Fine & Fork</span>
+            <span className="block font-display text-xl font-semibold">Food Finder</span>
             <span className="label-xs">Trouvez l'expérience parfaite</span>
           </span>
         </Link>
@@ -42,7 +42,7 @@ export function SiteFooter() {
   return (
     <footer className="mt-20 border-t border-border/70">
       <div className="mx-auto flex max-w-[1200px] flex-col gap-2 px-5 py-8 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
-        <p className="font-display text-base text-foreground">Fine &amp; Fork</p>
+        <p className="font-display text-base text-foreground">Food Finder</p>
         <p>Données de démonstration · Paris 5e–10e</p>
       </div>
     </footer>

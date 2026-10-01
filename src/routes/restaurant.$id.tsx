@@ -13,16 +13,16 @@ export const Route = createFileRoute("/restaurant/$id")({
   head: ({ loaderData }) => {
     if (!loaderData) {
       return {
-        meta: [{ title: "Table introuvable — Fine & Fork" }, { name: "robots", content: "noindex" }],
+        meta: [{ title: "Table introuvable — Food Finder" }, { name: "robots", content: "noindex" }],
       };
     }
     const { restaurant } = loaderData;
     const description = `${restaurant.cuisine} · ${restaurant.district} · ${restaurant.rating.toFixed(1)}/5. ${restaurant.signature}.`;
     return {
       meta: [
-        { title: `${restaurant.name} — Fine & Fork` },
+        { title: `${restaurant.name} — Food Finder` },
         { name: "description", content: description },
-        { property: "og:title", content: `${restaurant.name} — Fine & Fork` },
+        { property: "og:title", content: `${restaurant.name} — Food Finder` },
         { property: "og:description", content: description },
       ],
     };

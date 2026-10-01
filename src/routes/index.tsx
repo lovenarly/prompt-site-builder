@@ -10,13 +10,13 @@ import { useFavorites } from "@/lib/local-store";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Fine & Fork — Rechercher une table d'exception à Paris" },
+      { title: "Food Finder — Rechercher une table d'exception à Paris" },
       {
         name: "description",
         content:
           "Filtrez par quartier, budget, cuisine, régime et allergies pour trouver la table parisienne qui vous correspond.",
       },
-      { property: "og:title", content: "Fine & Fork — Rechercher une table" },
+      { property: "og:title", content: "Food Finder — Rechercher une table" },
       {
         property: "og:description",
         content: "54 tables parisiennes filtrées selon votre budget, vos allergies et vos envies.",
