@@ -111,9 +111,9 @@ function build(): Restaurant[] {
   const rng = makeRng(20260930);
   const list: Restaurant[] = [];
   for (let i = 0; i < 54; i++) {
-    const cuisine = CUISINES[i % CUISINES.length];
-    const pool = NAMES_BY_CUISINE[cuisine];
-    const name = pool[Math.floor(i / CUISINES.length) % pool.length];
+    const cuisine = CUISINES[i % CUISINES.length]!;
+    const pool = NAMES_BY_CUISINE[cuisine]!;
+    const name = pool[Math.floor(i / CUISINES.length) % pool.length]!;
     const budget = 8 + Math.floor(rng() * 30);
     const price = (budget < 14 ? 1 : budget < 22 ? 2 : budget < 30 ? 3 : 4) as 1 | 2 | 3 | 4;
     const rating = Math.round((3.4 + rng() * 1.6) * 10) / 10;
@@ -124,11 +124,11 @@ function build(): Restaurant[] {
       id: `r${i + 1}`,
       name,
       cuisine,
-      district: DISTRICTS[i % DISTRICTS.length],
-      address: `${1 + Math.floor(rng() * 90)} ${STREETS[i % STREETS.length]}`,
+      district: DISTRICTS[i % DISTRICTS.length]!,
+      address: `${1 + Math.floor(rng() * 90)} ${STREETS[i % STREETS.length]!}`,
       price,
       budget,
-      minutes: [10, 15, 20, 30, 45, 60][Math.floor(rng() * 6)],
+      minutes: [10, 15, 20, 30, 45, 60][Math.floor(rng() * 6)]!,
       rating,
       reviewCount: 20 + Math.floor(rng() * 400),
       lat: 48.8402 + rng() * 0.048,
@@ -142,7 +142,7 @@ function build(): Restaurant[] {
       allergensFree,
       description:
         "Une adresse sans prise de tête : bonne bouffe, prix honnêtes et service rapide. Parfait pour un midi entre potes ou un dîner chill.",
-      signature: SIGNATURES[cuisine],
+      signature: SIGNATURES[cuisine]!,
       bookingUrl: "https://www.thefork.fr",
     });
   }
@@ -180,13 +180,13 @@ function buildReviews(): Review[] {
       out.push({
         id: `${r.id}-rev${i}`,
         restaurantId: r.id,
-        author: AUTHORS[(ri + i) % AUTHORS.length],
+        author: AUTHORS[(ri + i) % AUTHORS.length]!,
         date: `${1 + ((ri + i) % 28)}/0${1 + ((ri + i) % 9)}/2026`,
         quality: 3 + Math.round(rng() * 2),
         speed: 3 + Math.round(rng() * 2),
         ambience: 3 + Math.round(rng() * 2),
         value: 3 + Math.round(rng() * 2),
-        comment: COMMENTS[(ri + i) % COMMENTS.length],
+        comment: COMMENTS[(ri + i) % COMMENTS.length]!,
       });
     }
   });
