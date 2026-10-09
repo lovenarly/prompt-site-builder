@@ -34,7 +34,7 @@ function Score({ label, value }: { label: string; value: number }) {
   return (
     <div className="rounded-lg border border-border bg-card p-3 text-center">
       <p className="label-xs">{label}</p>
-      <p className="mt-1 font-display text-2xl text-gold">{value.toFixed(1)}</p>
+      <p className="mt-1 text-2xl text-gold">{value.toFixed(1)}</p>
     </div>
   );
 }
@@ -63,7 +63,7 @@ function RestaurantDetail() {
           <p className="label-xs">
             {restaurant.cuisine} · {restaurant.district}
           </p>
-          <h1 className="mt-1 font-display text-4xl sm:text-5xl">{restaurant.name}</h1>
+          <h1 className="mt-1 text-4xl sm:text-5xl">{restaurant.name}</h1>
           <div className="mt-3 flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
             <span className="flex items-center gap-1.5 font-semibold text-gold">
               <Star className="size-4 fill-current" aria-hidden /> {restaurant.rating.toFixed(1)}
@@ -120,12 +120,12 @@ function RestaurantDetail() {
             ))}
           </div>
 
-          <h2 className="mt-8 font-display text-2xl">La maison</h2>
+          <h2 className="mt-8 text-2xl">La maison</h2>
           <p className="mt-2 text-muted-foreground">{restaurant.description}</p>
           <p className="mt-3">
             <span className="label-xs">Signature</span>
             <br />
-            <span className="font-display text-xl">{restaurant.signature}</span>
+            <span className="text-xl">{restaurant.signature}</span>
           </p>
 
           <div className="mt-6 flex flex-wrap gap-2">
@@ -136,7 +136,7 @@ function RestaurantDetail() {
             ))}
           </div>
 
-          <h2 className="mt-10 font-display text-2xl">Avis ({reviews.length})</h2>
+          <h2 className="mt-10 text-2xl">Avis ({reviews.length})</h2>
           <div className="mt-4 grid gap-4">
             {reviews.map((r) => (
               <article key={r.id} className="card-luxe p-4">

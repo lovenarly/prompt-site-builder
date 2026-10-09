@@ -54,7 +54,7 @@ export function MapPanel({
       {activeId ? (
         <div className="absolute inset-x-4 bottom-4 rounded-lg border border-gold bg-card p-3 shadow-luxe">
           <p className="label-xs">Sélection</p>
-          <p className="font-display text-lg">
+          <p className="text-lg">
             {restaurants.find((r) => r.id === activeId)?.name ?? ""}
           </p>
         </div>

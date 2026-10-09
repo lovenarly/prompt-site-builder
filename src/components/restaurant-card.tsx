@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
-import { Heart, MapPin, Star } from "lucide-react";
-import { priceLabel, type Restaurant } from "@/data/restaurants";
+import { Check, Clock, Heart, MapPin, Star } from "lucide-react";
+import { type Restaurant } from "@/data/restaurants";
 
 export function RestaurantCard({
   restaurant,
@@ -21,7 +21,7 @@ export function RestaurantCard({
         <p className="label-xs">
           {restaurant.cuisine} · {restaurant.district}
         </p>
-        <h3 className="mt-1 truncate font-display text-xl font-semibold">
+        <h3 className="mt-1 truncate text-xl font-bold">
           <Link
             to="/restaurant/$id"
             params={{ id: restaurant.id }}
@@ -34,27 +34,29 @@ export function RestaurantCard({
           <MapPin className="size-3.5" aria-hidden /> {restaurant.address}
         </p>
         <div className="mt-3 flex flex-wrap items-center gap-3 text-sm">
-          <span className="flex items-center gap-1 font-semibold text-gold">
+          <span className="flex items-center gap-1 font-semibold text-maybe">
             <Star className="size-4 fill-current" aria-hidden />
             {restaurant.rating.toFixed(1)}
           </span>
           <span className="text-muted-foreground">{restaurant.reviewCount} avis</span>
-          <span className="font-semibold text-gold">{priceLabel(restaurant.price)}</span>
+          <span className="font-semibold text-foreground">~{restaurant.budget}€</span>
+          <span className="flex items-center gap-1 text-muted-foreground"><Clock className="size-3.5" aria-hidden />{restaurant.minutes} min</span>
         </div>
         <div className="mt-3 flex flex-wrap gap-1.5">
-          {restaurant.tags.slice(0, 2).map((t) => (
-            <span
-              key={t}
-              className="rounded-full bg-secondary px-2.5 py-1 text-xs text-secondary-foreground"
-            >
-              {t}
+          {restaurant.diets.map((d) => (
+            <span key={d} className="flex items-center gap-1 rounded-full bg-success-soft px-2.5 py-1 text-xs font-medium text-success">
+              <Check className="size-3" aria-hidden /> {d}
             </span>
           ))}
-          {restaurant.diets.slice(0, 1).map((d) => (
-            <span key={d} className="rounded-full bg-gold-soft px-2.5 py-1 text-xs text-foreground">
-              {d}
+          {restaurant.allergensFree.includes("Gluten") ? (
+            <span className="flex items-center gap-1 rounded-full bg-success-soft px-2.5 py-1 text-xs font-medium text-success">
+              <Check className="size-3" aria-hidden /> Sans gluten
             </span>
-          ))}
+          ) : null}
+        </div>
+        <div className="mt-4 flex gap-2">
+          <Link to="/restaurant/$id" params={{ id: restaurant.id }} className="rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:brightness-90">Voir</Link>
+          <Link to="/vote" className="rounded-full border-2 border-brand px-4 py-2 text-sm font-semibold text-brand hover:bg-secondary">Voter en groupe</Link>
         </div>
       </div>
       {onToggleFavorite ? (

@@ -85,7 +85,7 @@ function ReviewForm() {
       <Link to="/restaurant/$id" params={{ id: restaurant.id }} className="label-xs hover:underline">
         ← {restaurant.name}
       </Link>
-      <h1 className="mt-3 font-display text-4xl">Laisser un avis</h1>
+      <h1 className="mt-3 text-4xl">Laisser un avis</h1>
       <p className="mt-2 text-muted-foreground">
         Votre visite chez <span className="text-foreground">{restaurant.name}</span> — quatre
         critères, une minute.
@@ -125,7 +125,7 @@ function ReviewForm() {
 
       {reviews.filter((r) => r.restaurantId === restaurant.id).length ? (
         <div className="mt-10">
-          <h2 className="font-display text-2xl">Vos avis sur cette table</h2>
+          <h2 className="text-2xl">Vos avis sur cette table</h2>
           <div className="mt-4 grid gap-3">
             {reviews
               .filter((r) => r.restaurantId === restaurant.id)

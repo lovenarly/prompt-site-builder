@@ -10,17 +10,19 @@ import { useFavorites } from "@/lib/local-store";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Food Finder — Rechercher une table d'exception à Paris" },
+      { title: "Food Finder — Trouve où manger à Paris" },
       {
         name: "description",
         content:
           "Filtrez par quartier, budget, cuisine, régime et allergies pour trouver la table parisienne qui vous correspond.",
       },
-      { property: "og:title", content: "Food Finder — Rechercher une table" },
+      { property: "og:title", content: "Food Finder — Trouve où manger" },
       {
         property: "og:description",
-        content: "54 tables parisiennes filtrées selon votre budget, vos allergies et vos envies.",
+        content: "Restos et snacks filtrés selon ton budget, tes allergies et ton temps.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Index,
@@ -56,7 +58,8 @@ function Index() {
   const [query, setQuery] = useState("");
   const [district, setDistrict] = useState<string | null>(null);
   const [cuisine, setCuisine] = useState<string | null>(null);
-  const [maxPrice, setMaxPrice] = useState(4);
+  const [budget, setBudget] = useState(40);
+  const [time, setTime] = useState(60);
   const [diets, setDiets] = useState<string[]>([]);
   const [allergies, setAllergies] = useState<string[]>([]);
   const [activeId, setActiveId] = useState<string | null>(null);
@@ -71,14 +74,15 @@ function Index() {
       if (q && !`${r.name} ${r.cuisine} ${r.district}`.toLowerCase().includes(q)) return false;
       if (district && r.district !== district) return false;
       if (cuisine && r.cuisine !== cuisine) return false;
-      if (r.price > maxPrice) return false;
+      if (r.budget > budget) return false;
+      if (r.minutes > time) return false;
       if (diets.some((d) => !r.diets.includes(d))) return false;
       if (allergies.some((a) => !r.allergensFree.includes(a))) return false;
       return true;
     }).sort((a, b) => b.rating - a.rating);
-  }, [query, district, cuisine, maxPrice, diets, allergies]);
+  }, [query, district, cuisine, budget, time, diets, allergies]);
 
-  const surprise = results[0] ?? RESTAURANTS[0];
+  const surprise = (results[0] ?? RESTAURANTS[0])!;
 
   return (
     <div>
@@ -90,18 +94,18 @@ function Index() {
         />
         <div className="absolute inset-0 bg-foreground/65" />
         <div className="relative mx-auto max-w-[1200px] px-5 py-20 text-background sm:py-28">
-          <p className="label-xs text-gold">Luxe · Sophistication · Exclusivité</p>
-          <h1 className="mt-4 max-w-2xl font-display text-4xl leading-tight sm:text-6xl">
-            Trouvez l'expérience gastronomique parfaite
+          <p className="label-xs text-primary">Resto, snack, kebab… sans prise de tête</p>
+          <h1 className="mt-4 max-w-2xl text-4xl leading-tight sm:text-6xl">
+            Tu as faim ? On trouve où manger.
           </h1>
           <p className="mt-4 max-w-xl text-background/80">
-            54 tables sélectionnées entre le 5e et le 10e arrondissement. Filtrez selon vos
-            allergies, votre budget et vos envies — ou laissez votre groupe voter.
+            Dis-nous ton budget, ton temps et tes allergies : on te sort les meilleures adresses
+            entre Paris 5e et 10e. Pas d'accord entre potes ? Lancez un vote.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <Link
               to="/vote"
-              className="rounded-full bg-gold px-6 py-3 text-sm font-semibold text-foreground transition-opacity hover:opacity-90"
+              className="rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90"
             >
               Lancer un vote de groupe
             </Link>
@@ -123,7 +127,7 @@ function Index() {
             <input
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Nom, cuisine ou quartier…"
+              placeholder="Où ? Adresse, quartier, nom ou cuisine…"
               className="w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground"
             />
           </label>
@@ -161,15 +165,12 @@ function Index() {
 
             <div className="grid gap-5 sm:grid-cols-2">
               <div>
-                <p className="label-xs mb-2">Budget maximum</p>
-                <div className="flex gap-2">
-                  {[1, 2, 3, 4].map((p) => (
-                    <Chip
-                      key={p}
-                      label={"€".repeat(p)}
-                      active={maxPrice === p}
-                      onClick={() => setMaxPrice(p)}
-                    />
+                <p className="label-xs mb-2">Budget · jusqu'à {budget}€ (plat + boisson + service)</p>
+                <input type="range" min={10} max={40} value={budget} onChange={(e) => setBudget(Number(e.target.value))} className="w-full accent-[var(--primary)]" />
+                <p className="label-xs mb-2 mt-4">Combien de temps ?</p>
+                <div className="flex flex-wrap gap-2">
+                  {[[15, "Urgent 15 min"], [30, "Normal 30 min"], [60, "Chill 1h"]].map(([v, l]) => (
+                    <Chip key={v} label={l as string} active={time === v} onClick={() => setTime(v as number)} />
                   ))}
                 </div>
               </div>
@@ -202,14 +203,17 @@ function Index() {
               </div>
             </div>
           </div>
+          <a href="#resultats" className="mt-6 block w-full rounded-full bg-primary py-4 text-center text-base font-bold text-primary-foreground transition hover:brightness-90">
+            Chercher
+          </a>
         </div>
 
-        <div className="mt-10 grid gap-8 lg:grid-cols-[1.1fr_1fr]">
-          <div>
+        <div id="resultats" className="mt-10 grid gap-8 lg:grid-cols-[1fr_1.1fr]">
+          <div className="order-2 lg:order-1"><MapPanel restaurants={results} activeId={activeId} onSelect={setActiveId} /></div>
+          <div className="order-1 lg:order-2">
             <div className="flex items-baseline justify-between">
-              <h2 className="font-display text-2xl">
-                {results.length} table{results.length > 1 ? "s" : ""} trouvée
-                {results.length > 1 ? "s" : ""}
+              <h2 className="text-2xl">
+                {results.length} adresse{results.length > 1 ? "s" : ""} trouvée{results.length > 1 ? "s" : ""}
               </h2>
               <span className="label-xs">Triées par note</span>
             </div>
@@ -233,7 +237,6 @@ function Index() {
               ) : null}
             </div>
           </div>
-          <MapPanel restaurants={results} activeId={activeId} onSelect={setActiveId} />
         </div>
       </section>
     </div>

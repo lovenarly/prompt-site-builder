@@ -31,7 +31,7 @@ function ProfilePage() {
   return (
     <div className="mx-auto max-w-[860px] px-5 py-12">
       <p className="label-xs">Préférences personnelles</p>
-      <h1 className="mt-2 font-display text-4xl">Mon profil</h1>
+      <h1 className="mt-2 text-4xl">Mon profil</h1>
       <div className="gold-rule my-8" />
 
       <div className="card-luxe grid gap-6 p-6">
@@ -118,7 +118,7 @@ function ProfilePage() {
         </button>
       </div>
 
-      <h2 className="mt-12 font-display text-2xl">Profils de démonstration</h2>
+      <h2 className="mt-12 text-2xl">Profils de démonstration</h2>
       <p className="mt-1 text-sm text-muted-foreground">
         Chargez un profil type pour tester les filtres.
       </p>
