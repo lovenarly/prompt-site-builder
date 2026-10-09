@@ -86,7 +86,7 @@ function VoteScreen() {
   }, [done, session, round]);
 
   const elapsed = DURATION - seconds;
-  const voted = friends.map((_, i) => done || elapsed >= sim.at[i]);
+  const voted = friends.map((_, i) => done || elapsed >= (sim.at[i] ?? 0));
   const iVoted = session ? session.candidates.every((id) => mine[id]) : false;
 
   useEffect(() => {

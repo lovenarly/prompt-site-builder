@@ -82,7 +82,7 @@ function Index() {
     }).sort((a, b) => b.rating - a.rating);
   }, [query, district, cuisine, budget, time, diets, allergies]);
 
-  const surprise = results[0] ?? RESTAURANTS[0];
+  const surprise = (results[0] ?? RESTAURANTS[0])!;
 
   return (
     <div>
