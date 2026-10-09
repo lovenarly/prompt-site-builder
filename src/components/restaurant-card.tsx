@@ -15,7 +15,7 @@ export function RestaurantCard({
 }) {
   return (
     <article
-      className={`card-luxe relative flex gap-4 p-4 ${active ? "border-gold shadow-luxe" : ""}`}
+      className={`card-luxe relative flex gap-4 p-4 ${active ? "shadow-gold" : ""}`}
     >
       <div className="min-w-0 flex-1">
         <p className="label-xs">
@@ -55,8 +55,8 @@ export function RestaurantCard({
           ) : null}
         </div>
         <div className="mt-4 flex gap-2">
-          <Link to="/restaurant/$id" params={{ id: restaurant.id }} className="rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:brightness-90">Voir</Link>
-          <Link to="/vote" className="rounded-full border-2 border-brand px-4 py-2 text-sm font-semibold text-brand hover:bg-secondary">Voter en groupe</Link>
+          <Link to="/restaurant/$id" params={{ id: restaurant.id }} className="rounded-lg bg-foreground px-4 py-2 text-sm font-semibold text-background hover:opacity-85">Voir</Link>
+          <Link to="/vote" className="rounded-lg border border-border px-4 py-2 text-sm font-semibold text-foreground hover:bg-secondary">Voter en groupe</Link>
         </div>
       </div>
       {onToggleFavorite ? (
@@ -64,9 +64,9 @@ export function RestaurantCard({
           type="button"
           onClick={() => onToggleFavorite(restaurant.id)}
           aria-label={favorite ? "Retirer des favoris" : "Ajouter aux favoris"}
-          className="size-9 shrink-0 self-start rounded-full border border-border text-primary transition-colors hover:border-gold hover:bg-secondary"
+          className="size-9 shrink-0 self-start rounded-full border border-border text-foreground transition-colors hover:bg-secondary"
         >
-          <Heart className={`mx-auto size-4 ${favorite ? "fill-current text-gold" : ""}`} />
+          <Heart className={`mx-auto size-4 ${favorite ? "fill-current text-brand" : ""}`} />
         </button>
       ) : null}
     </article>

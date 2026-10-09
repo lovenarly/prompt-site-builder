@@ -1,7 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { Search, SlidersHorizontal, Sparkles } from "lucide-react";
-import heroImage from "@/assets/hero-dining.jpg";
 import { MapPanel } from "@/components/map-panel";
 import { RestaurantCard } from "@/components/restaurant-card";
 import { ALLERGENS, CUISINES, DIETS, RESTAURANTS } from "@/data/restaurants";
@@ -45,8 +44,8 @@ function Chip({
       onClick={onClick}
       className={`rounded-full border px-3 py-1.5 text-sm transition-colors ${
         active
-          ? "border-gold bg-gold-soft font-medium text-foreground"
-          : "border-border bg-card text-muted-foreground hover:border-gold"
+          ? "border-foreground bg-foreground font-medium text-background"
+          : "border-border bg-card text-muted-foreground hover:border-foreground"
       }`}
     >
       {label}
@@ -86,33 +85,26 @@ function Index() {
 
   return (
     <div>
-      <section className="relative overflow-hidden border-b border-border">
-        <img
-          src={heroImage}
-          alt="Salle de restaurant gastronomique éclairée à la bougie"
-          className="absolute inset-0 size-full object-cover"
-        />
-        <div className="absolute inset-0 bg-foreground/65" />
-        <div className="relative mx-auto max-w-[1200px] px-5 py-20 text-background sm:py-28">
-          <p className="label-xs text-primary">Resto, snack, kebab… sans prise de tête</p>
-          <h1 className="mt-4 max-w-2xl text-4xl leading-tight sm:text-6xl">
+      <section className="border-b border-border bg-foreground text-background">
+        <div className="mx-auto max-w-[1200px] px-5 py-16 sm:py-20">
+          <h1 className="max-w-2xl text-4xl font-bold leading-tight text-background sm:text-5xl">
             Tu as faim ? On trouve où manger.
           </h1>
-          <p className="mt-4 max-w-xl text-background/80">
-            Dis-nous ton budget, ton temps et tes allergies : on te sort les meilleures adresses
-            entre Paris 5e et 10e. Pas d'accord entre potes ? Lancez un vote.
+          <p className="mt-4 max-w-xl text-background/70">
+            Budget, temps, allergies : on te sort les meilleures adresses entre Paris 5e et 10e.
+            Pas d'accord entre potes ? Lancez un vote.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <Link
               to="/vote"
-              className="rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90"
+              className="rounded-lg bg-brand px-6 py-3 text-sm font-semibold text-white transition-opacity hover:opacity-90"
             >
               Lancer un vote de groupe
             </Link>
             <Link
               to="/restaurant/$id"
               params={{ id: surprise.id }}
-              className="flex items-center gap-2 rounded-full border border-background/50 px-6 py-3 text-sm font-medium transition-colors hover:bg-background/10"
+              className="flex items-center gap-2 rounded-lg bg-background/10 px-6 py-3 text-sm font-medium text-background transition-colors hover:bg-background/20"
             >
               <Sparkles className="size-4" aria-hidden /> Surprenez-moi
             </Link>
@@ -123,7 +115,7 @@ function Index() {
       <section className="mx-auto max-w-[1200px] px-5 py-10">
         <div className="card-luxe p-5">
           <label className="flex items-center gap-3 rounded-lg border border-border bg-background px-4 py-3">
-            <Search className="size-4 text-primary" aria-hidden />
+            <Search className="size-4 text-muted-foreground" aria-hidden />
             <input
               value={query}
               onChange={(e) => setQuery(e.target.value)}
@@ -203,7 +195,7 @@ function Index() {
               </div>
             </div>
           </div>
-          <a href="#resultats" className="mt-6 block w-full rounded-full bg-primary py-4 text-center text-base font-bold text-primary-foreground transition hover:brightness-90">
+          <a href="#resultats" className="mt-6 block w-full rounded-lg bg-brand py-4 text-center text-base font-bold text-white transition hover:brightness-95">
             Chercher
           </a>
         </div>
