@@ -22,7 +22,7 @@ function Stat({ label, value }: { label: string; value: string }) {
   return (
     <div className="card-luxe p-5">
       <p className="label-xs">{label}</p>
-      <p className="mt-1 font-display text-3xl text-gold">{value}</p>
+      <p className="mt-1 text-3xl text-gold">{value}</p>
     </div>
   );
 }
@@ -50,7 +50,7 @@ function MyRestaurants() {
   return (
     <div className="mx-auto max-w-[1200px] px-5 py-12">
       <p className="label-xs">Votre carnet</p>
-      <h1 className="mt-2 font-display text-4xl">Mes restaurants</h1>
+      <h1 className="mt-2 text-4xl">Mes restaurants</h1>
       <div className="gold-rule my-8" />
 
       <div className="grid gap-4 sm:grid-cols-3">
@@ -67,7 +67,7 @@ function MyRestaurants() {
         </p>
       ) : null}
 
-      <h2 className="mt-12 font-display text-2xl">Favoris</h2>
+      <h2 className="mt-12 text-2xl">Favoris</h2>
       <div className="mt-4 grid gap-4 lg:grid-cols-2">
         {favRestaurants.map((r) => (
           <RestaurantCard
@@ -87,7 +87,7 @@ function MyRestaurants() {
         ) : null}
       </div>
 
-      <h2 className="mt-12 font-display text-2xl">Historique</h2>
+      <h2 className="mt-12 text-2xl">Historique</h2>
       <div className="mt-4 grid gap-3">
         {histRestaurants.map((r) => (
           <div
@@ -101,7 +101,7 @@ function MyRestaurants() {
               <Link
                 to="/restaurant/$id"
                 params={{ id: r.id }}
-                className="font-display text-xl hover:text-primary"
+                className="text-xl hover:text-primary"
               >
                 {r.name}
               </Link>

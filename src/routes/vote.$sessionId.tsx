@@ -135,7 +135,7 @@ function VoteScreen() {
   }
 
   if (done) {
-    const best = scores[0];
+    const best = scores[0]!;
     const w = getRestaurant(best.id)!;
     return (
       <div className="mx-auto max-w-[900px] px-5 py-12">
