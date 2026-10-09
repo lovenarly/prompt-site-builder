@@ -1,7 +1,8 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { toast } from "sonner";
 import { useState } from "react";
 import { Users } from "lucide-react";
-import { CUISINES, RESTAURANTS } from "@/data/restaurants";
+import { ALLERGENS, RESTAURANTS } from "@/data/restaurants";
 import { useLocalState, type VoteSession } from "@/lib/vote-session";
 
 export const Route = createFileRoute("/vote/")({
@@ -104,13 +105,13 @@ function CreateVote() {
           onClick={create}
           className="flex items-center justify-center gap-2 rounded-full bg-primary px-6 py-3.5 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90"
         >
-          <Users className="size-4" aria-hidden /> Créer la session et obtenir le lien
+          <Users className="size-4" aria-hidden /> Créer session
         </button>
       </div>
 
       {Object.values(sessions).length ? (
         <div className="mt-10">
-          <h2 className="font-display text-2xl">Sessions récentes</h2>
+          <h2 className="text-2xl">Sessions récentes</h2>
           <ul className="mt-4 grid gap-2">
             {Object.values(sessions)
               .slice(-5)
@@ -123,12 +124,13 @@ function CreateVote() {
                       {s.participants} participants
                     </span>
                   </span>
-                  <a
-                    href={`/vote/${s.id}`}
+                  <Link
+                    to="/vote/$sessionId"
+                    params={{ sessionId: s.id }}
                     className="text-sm font-medium text-primary hover:underline"
                   >
                     Ouvrir
-                  </a>
+                  </Link>
                 </li>
               ))}
           </ul>
