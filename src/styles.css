@@ -5,8 +5,8 @@
 @custom-variant dark (&:is(.dark *));
 
 /*
- * Design system — Food Finder — casual & chill
- * Orange #FF6B35, bleu #004E89, vert #00A86B, fond #F7F7F7, texte #2C3E50
+ * Design system — Food Finder — style Uber Eats
+ * Noir, blanc, vert #06C167. Simple, direct, zéro chichi.
  */
 
 @theme inline {
@@ -49,35 +49,35 @@
 }
 
 :root {
-  --radius: 0.75rem;
-  --background: #F7F7F7;
-  --foreground: #2C3E50;
+  --radius: 0.5rem;
+  --background: #FFFFFF;
+  --foreground: #000000;
   --card: #FFFFFF;
-  --card-foreground: #2C3E50;
+  --card-foreground: #000000;
   --popover: #FFFFFF;
-  --popover-foreground: #2C3E50;
-  --primary: #FF6B35;
+  --popover-foreground: #000000;
+  --primary: #000000;
   --primary-foreground: #FFFFFF;
-  --brand: #004E89;
-  --secondary: #EEF2F6;
-  --secondary-foreground: #2C3E50;
-  --muted: #EEEEEE;
-  --muted-foreground: #8A8A8A;
-  --accent: #00A86B;
+  --brand: #06C167;
+  --secondary: #F3F3F3;
+  --secondary-foreground: #000000;
+  --muted: #F3F3F3;
+  --muted-foreground: #6B6B6B;
+  --accent: #06C167;
   --accent-foreground: #FFFFFF;
-  --success: #00A86B;
-  --success-soft: #DDF5EA;
-  --maybe: #FFA500;
-  --danger: #DC143C;
-  --gold: #FF6B35;
-  --gold-soft: #FFE5DA;
-  --destructive: #DC143C;
+  --success: #06C167;
+  --success-soft: #E4F6ED;
+  --maybe: #B25E09;
+  --danger: #D13438;
+  --gold: #06C167;
+  --gold-soft: #E4F6ED;
+  --destructive: #D13438;
   --destructive-foreground: #FFFFFF;
-  --border: #E2E2E2;
-  --input: #E2E2E2;
-  --ring: #FF6B35;
-  --shadow-luxe: 0 10px 28px -14px rgb(44 62 80 / 0.35);
-  --shadow-gold: 0 0 0 1px #FF6B35;
+  --border: #E5E5E5;
+  --input: #E5E5E5;
+  --ring: #06C167;
+  --shadow-luxe: 0 4px 12px rgb(0 0 0 / 0.12);
+  --shadow-gold: 0 0 0 2px #06C167;
 }
 
 @layer base {
@@ -97,40 +97,33 @@
   h3 {
     font-weight: 700;
     letter-spacing: -0.02em;
-    color: var(--color-brand);
+    color: var(--color-foreground);
   }
 }
 
 @utility label-xs {
   font-size: 12px;
   line-height: 1.2;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
-  color: #999999;
+  color: #6B6B6B;
 }
 
 @utility gold-rule {
-  background-image: linear-gradient(
-    90deg,
-    transparent,
-    color-mix(in oklab, var(--gold) 80%, transparent),
-    transparent
-  );
+  background-color: var(--color-border);
   height: 1px;
 }
 
 @utility card-luxe {
   background-color: var(--color-card);
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-xl);
+  border-radius: var(--radius-lg);
   transition:
-    box-shadow 0.25s ease,
-    transform 0.25s ease,
-    border-color 0.25s ease;
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
 
   &:hover {
     box-shadow: var(--shadow-luxe);
-    border-color: color-mix(in oklab, var(--gold) 60%, transparent);
-    transform: translateY(-2px);
+    border-color: #D0D0D0;
   }
 }
